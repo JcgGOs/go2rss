@@ -10,11 +10,23 @@ steps:
   - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
   - golangci-lint run
 
-- name: test
-  image: golang
+- name: build
+  image: golang:1.7
   environment:
     GO111MODULE: on
     GOPROXY: https://goproxy.cn/
   commands:
   - go test -v
   - go build -v
+
+
+# - name: publish
+#   image: plugins/docker:18
+#   environment:
+#     GO111MODULE: on
+#     GOPROXY: https://goproxy.cn/  
+#   settings:
+#     auto_tag: true
+#     auto_tag_suffix: linux-x86
+#     dockerfile: Dockerfile
+#     repo: tantao700/go2rss
