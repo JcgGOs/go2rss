@@ -9,4 +9,4 @@ steps:
     GOPROXY: https://goproxy.cn/
   commands:
   - go test -v
-  - go build
+  - go build -v
