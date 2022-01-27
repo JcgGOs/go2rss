@@ -2,13 +2,13 @@ kind: pipeline
 name: default
 
 steps:
-  - name: linter
-    image: golang:1.7
-    environment:
-      GOPROXY: https://goproxy.cn/
-    commands:
-      - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-      - golangci-lint run
+- name: linter
+  image: golang:1.7
+  environment:
+    GOPROXY: https://goproxy.cn/
+  commands:
+  - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+  - golangci-lint run
 
 - name: test
   image: golang
@@ -18,18 +18,3 @@ steps:
   commands:
   - go test -v
   - go build -v
-
-# - name: docker
-#   image: plugins/docker
-#   settings:
-#     repo: cnych/drone-k8s-demo
-#     use_cache: true
-#     username:
-#       from_secret: docker_username
-#     password:
-#       from_secret: docker_password
-#   tags:
-#     - latest
-#   when:
-#     event: push
-#     branch: master
