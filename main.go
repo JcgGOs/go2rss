@@ -14,7 +14,7 @@ func PrintFetch() {
 	cfg, _ := model.Parse("")
 
 	for _, feed := range cfg.Feeds {
-		content, err := feed.FetchRss()
+		content, err := feed.Gen()
 		if err == nil {
 			fmt.Printf("content: %v\n", content)
 		}
