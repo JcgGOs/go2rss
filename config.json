@@ -1,0 +1,19 @@
+{
+    "proxy": "socks5://127.0.0.1",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69",
+    "feeds": [
+        {
+            "name": "wangyin's blog",
+            "feed": "https://www.yinwang.org/",
+            "proxy": "",
+            "feed_title_expr":"/html/head/title",
+            "feed_description_expr":"/html/head/meta[@http-equiv=\"content-type\"]",
+            "items_expr": "/html/body/div/ul/li",
+            "title_expr": "//a",
+            "description_expr": "//a",
+            "link_expr": "//a",
+            "author_expr": "wangyin",
+            "created_expr": ""
+        }
+    ]
+}
