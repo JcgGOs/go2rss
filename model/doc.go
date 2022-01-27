@@ -1,4 +1,4 @@
-package doc
+package model
 
 import (
 	"io"
@@ -40,6 +40,6 @@ func Nodes(doc *html.Node, expr string) []*html.Node {
 	return htmlquery.Find(doc, expr)
 }
 
-func Doc(r io.Reader) (*html.Node, error) {
+func Load(r io.Reader) (*html.Node, error) {
 	return htmlquery.Parse(r)
 }

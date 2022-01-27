@@ -27,11 +27,12 @@ func (c *Config) UpdateToFeeds() {
 			f.Proxy = ""
 		}
 
-		if f.FeedTitleExpr == "" {
-			f.FeedTitleExpr = "/html/head/title"
+		if f.FeedTitle.Expr == "" {
+			f.FeedTitle.Expr = "/html/head/title"
 		}
-		if f.FeedDescriptionExpr == "" {
-			f.FeedTitleExpr = "/html/head/media[@name=\"description\"]"
+		if f.FeedDescription.Expr == "" {
+			f.FeedDescription.Expr = "/html/head/media[@name=\"description\"]"
+			f.FeedDescription.Attr = "content"
 		}
 
 		if f.Domain == "" {

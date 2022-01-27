@@ -1,7 +1,6 @@
 package model
 
 import (
-	d "go2rss/doc"
 	"net/http"
 	"time"
 
@@ -9,19 +8,20 @@ import (
 )
 
 type Feed struct {
-	Name                string `json:"name"`
-	Feed                string `json:"feed"`
-	Proxy               string `json:"proxy"`
-	ItemsExpr           string `json:"items_expr"`
-	FeedTitleExpr       string `json:"feed_title_expr"`
-	FeedDescriptionExpr string `json:"feed_description_expr"`
-	TitleExpr           string `json:"title_expr"`
-	DescriptionExpr     string `json:"description_expr"`
-	LinkExpr            string `json:"link_expr"`
-	AuthorExpr          string `json:"author_expr"`
-	CreatedExpr         string `json:"created_expr"`
-	UserAgent           string `json:"user_agent"`
-	Domain              string
+	Domain          string
+	Name            string     `json:"name"`
+	Feed            string     `json:"feed"`
+	Proxy           string     `json:"proxy"`
+	UserAgent       string     `json:"user_agent"`
+	Items           *ExprField `json:"items"`
+	FeedTitle       *ExprField `json:"feed_title"`
+	FeedDescription *ExprField `json:"feed_description"`
+	Title           *ExprField `json:"title"`
+	Description     *ExprField `json:"description"`
+	Link            *ExprField `json:"link"`
+	Author          *ExprField `json:"author"`
+	Email           *ExprField `json:"email"`
+	Created         *TimeField `json:"created"`
 }
 
 func (feed *Feed) Gen() (string, error) {
@@ -32,24 +32,23 @@ func (feed *Feed) Gen() (string, error) {
 	defer resp.Body.Close()
 
 	now := time.Now()
-	doc, _ := d.Doc(resp.Body)
+	doc, _ := Load(resp.Body)
 	nFeed := &feeds.Feed{
-		Title:       d.Text(doc, feed.FeedTitleExpr),
+		Title:       feed.FeedTitle.Value(doc),
 		Link:        &feeds.Link{Href: feed.Feed},
-		Description: d.Attr(doc, feed.FeedDescriptionExpr, "content"),
-		Author:      &feeds.Author{Name: "wangyin", Email: "jmoiron@jmoiron.net"},
+		Description: feed.FeedDescription.Value(doc),
+		Author:      &feeds.Author{Name: feed.Author.Value(doc), Email: feed.Email.Value(doc)},
 		Created:     now,
 		Items:       []*feeds.Item{},
 	}
-	nodes := d.Nodes(doc, feed.ItemsExpr)
-	for _, n := range nodes {
-		item := feeds.Item{
-			Title:       d.Text(n, feed.TitleExpr),
-			Link:        &feeds.Link{Href: d.FullHref(n, feed.LinkExpr, feed.Domain)},
-			Description: d.Text(n, feed.DescriptionExpr),
-			Created:     now,
-		}
-		nFeed.Items = append(nFeed.Items, &item)
+
+	for _, n := range Nodes(doc, feed.Items.Expr) {
+		nFeed.Items = append(nFeed.Items, &feeds.Item{
+			Title:       feed.Title.Value(n),
+			Link:        &feeds.Link{Href: feed.Link.Href(n, feed.Domain)},
+			Description: feed.Description.Value(n),
+			Created:     feed.Created.Value(n),
+		})
 	}
-	return nFeed.ToRss()
+	return nFeed.ToAtom()
 }
