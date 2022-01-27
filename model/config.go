@@ -45,6 +45,15 @@ func (c *Config) UpdateToFeeds() {
 	}
 }
 
+func (c *Config) GetFeed(name string) *Feed {
+	for _, v := range c.Feeds {
+		if v.Name == name {
+			return v
+		}
+	}
+	return nil
+}
+
 func Parse(config string) (*Config, error) {
 	if config == "" {
 		config = "config.json"

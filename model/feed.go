@@ -1,6 +1,8 @@
 package model
 
 import (
+	"crypto/md5"
+	"fmt"
 	"net/http"
 	"time"
 
@@ -43,12 +45,15 @@ func (feed *Feed) Gen() (string, error) {
 	}
 
 	for _, n := range Nodes(doc, feed.Items.Expr) {
+		title := feed.Title.Value(n)
+		_link := feed.Link.Href(n, feed.Domain)
 		nFeed.Items = append(nFeed.Items, &feeds.Item{
 			Title:       feed.Title.Value(n),
-			Link:        &feeds.Link{Href: feed.Link.Href(n, feed.Domain)},
+			Link:        &feeds.Link{Href: _link},
 			Description: feed.Description.Value(n),
 			Created:     feed.Created.Value(n),
+			Id:          fmt.Sprintf("%x", md5.Sum([]byte(title+_link))),
 		})
 	}
-	return nFeed.ToAtom()
+	return nFeed.ToRss()
 }
