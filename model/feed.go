@@ -1,9 +1,10 @@
 package model
 
 import (
+	"bytes"
 	"crypto/md5"
 	"fmt"
-	"net/http"
+	"go2rss/util"
 	"time"
 
 	"github.com/gorilla/feeds"
@@ -14,7 +15,6 @@ type Feed struct {
 	Name            string     `json:"name"`
 	Feed            string     `json:"feed"`
 	Proxy           string     `json:"proxy"`
-	UserAgent       string     `json:"user_agent"`
 	Items           *ExprField `json:"items"`
 	FeedTitle       *ExprField `json:"feed_title"`
 	FeedDescription *ExprField `json:"feed_description"`
@@ -24,17 +24,23 @@ type Feed struct {
 	Author          *ExprField `json:"author"`
 	Email           *ExprField `json:"email"`
 	Created         *TimeField `json:"created"`
+	Headers         []string   `json:"headers"`
 }
 
 func (feed *Feed) Gen() (string, error) {
-	resp, err := http.Get(feed.Feed)
+	// util.GET(feed, "")
+	body, err := util.GET(feed.Proxy, feed.Feed, feed.Headers)
 	if err != nil {
 		return "", err
 	}
-	defer resp.Body.Close()
+	// resp, err := http.Get(feed.Feed)
+	// if err != nil {
+	// 	return "", err
+	// }
+	// defer resp.Body.Close()
 
 	now := time.Now()
-	doc, _ := Load(resp.Body)
+	doc, _ := Load(bytes.NewReader(body))
 	nFeed := &feeds.Feed{
 		Title:       feed.FeedTitle.Value(doc),
 		Link:        &feeds.Link{Href: feed.Feed},

@@ -1,8 +1,11 @@
 FROM golang:1.17-alpine as builder
-WORKDIR /usr/src/app
+
 ENV GOPROXY=https://goproxy.cn
-COPY ./go.mod ./
-COPY ./go.sum ./
-RUN go mod download
+
+WORKDIR /app
 COPY . .
-RUN go build -ldflags "-s -w" -o server
+
+RUN go mod download && go build -v -ldflags "-s -w" -o go2rss
+EXPOSE 8001
+
+CMD [ "/app/go2rss" ]

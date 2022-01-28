@@ -9,16 +9,13 @@ import (
 )
 
 type Config struct {
-	Proxy     string  `json:"proxy"`
-	UserAgent string  `json:"user_agent"`
-	Feeds     []*Feed `json:"feeds"`
+	Proxy   string   `json:"proxy"`
+	Headers []string `json:"headers"`
+	Feeds   []*Feed  `json:"feeds"`
 }
 
-func (c *Config) UpdateToFeeds() {
+func (c *Config) Init() {
 	for _, f := range c.Feeds {
-		if f.UserAgent == "" {
-			f.UserAgent = c.UserAgent
-		}
 
 		if f.Proxy == "" {
 			f.Proxy = c.Proxy
@@ -42,6 +39,17 @@ func (c *Config) UpdateToFeeds() {
 			}
 		}
 
+		if f.Headers == nil {
+			f.Headers = []string{}
+		}
+
+		if len(c.Headers) > 0 {
+			f.Headers = append(f.Headers, c.Headers...)
+		}
+
+		if len(f.Headers) < 1 {
+			f.Headers = append(f.Headers, "User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69")
+		}
 	}
 }
 
@@ -69,7 +77,7 @@ func Parse(config string) (*Config, error) {
 		return nil, err
 	}
 
-	c.UpdateToFeeds()
+	c.Init()
 
 	return &c, nil
 }
