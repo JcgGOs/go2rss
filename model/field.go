@@ -1,6 +1,7 @@
 package model
 
 import (
+	"fmt"
 	"strings"
 	"time"
 
@@ -32,6 +33,10 @@ func (f *ExprField) Value(node *html.Node) string {
 func (f *ExprField) Href(node *html.Node, domain string) string {
 	v := f.Value(node)
 	return domain + v
+}
+func (f *ExprField) CDATA(node *html.Node) string {
+	v := f.Value(node)
+	return fmt.Sprintf("<![CDATA[ %s ]]>", v)
 }
 
 type TimeField struct {

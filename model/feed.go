@@ -2,9 +2,9 @@ package model
 
 import (
 	"bytes"
-	"crypto/md5"
-	"fmt"
 	"go2rss/util"
+	"math/rand"
+	"sync"
 	"time"
 
 	"github.com/gorilla/feeds"
@@ -24,6 +24,7 @@ type Feed struct {
 	Author          *ExprField `json:"author"`
 	Email           *ExprField `json:"email"`
 	Created         *TimeField `json:"created"`
+	Content         *ExprField `json:"content"`
 	Headers         []string   `json:"headers"`
 }
 
@@ -51,15 +52,35 @@ func (feed *Feed) Gen() (string, error) {
 	}
 
 	for _, n := range Nodes(doc, feed.Items.Expr) {
-		title := feed.Title.Value(n)
 		_link := feed.Link.Href(n, feed.Domain)
-		nFeed.Items = append(nFeed.Items, &feeds.Item{
+		_item := &feeds.Item{
 			Title:       feed.Title.Value(n),
 			Link:        &feeds.Link{Href: _link},
 			Description: feed.Description.Value(n),
 			Created:     feed.Created.Value(n),
-			Id:          fmt.Sprintf("%x", md5.Sum([]byte(title+_link))),
-		})
+			Id:          _link,
+		}
+		nFeed.Items = append(nFeed.Items, _item)
 	}
-	return nFeed.ToRss()
+
+	if feed.Content != nil && len(nFeed.Items) > 0 {
+		var wg sync.WaitGroup
+		ch := make(chan *feeds.Item, len(nFeed.Items))
+		for _, f := range nFeed.Items {
+			ch <- f
+			wg.Add(1)
+			go func(_f *feeds.Item) {
+				defer wg.Done()
+				time.Sleep(time.Duration(rand.Intn(1500)) * time.Millisecond)
+				itemBody, err := util.GET(feed.Proxy, _f.Link.Href, feed.Headers)
+				_itemDoc, _ := Load(bytes.NewReader(itemBody))
+				if err == nil {
+					_f.Content = feed.Content.Value(_itemDoc)
+				}
+				<-ch
+			}(f)
+		}
+		wg.Wait()
+	}
+	return nFeed.ToAtom()
 }

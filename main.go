@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"go2rss/model"
+	"net/http"
 )
 
 // func main() {
@@ -16,18 +17,18 @@ import (
 // }
 
 func main() {
-	PrintFetch()
-	// cfg, _ := model.Parse("")
-	// http.HandleFunc("/rss", func(w http.ResponseWriter, r *http.Request) {
-	// 	name := r.URL.Query().Get("name")
-	// 	feed := cfg.GetFeed(name)
-	// 	if feed != nil {
-	// 		context, _ := feed.Gen()
-	// 		w.Write([]byte(context))
-	// 	}
-	// })
-	// fmt.Println(":8001")
-	// http.ListenAndServe(":8001", nil)
+	// PrintFetch()
+	cfg, _ := model.Parse("")
+	http.HandleFunc("/rss", func(w http.ResponseWriter, r *http.Request) {
+		name := r.URL.Query().Get("name")
+		feed := cfg.GetFeed(name)
+		if feed != nil {
+			context, _ := feed.Gen()
+			w.Write([]byte(context))
+		}
+	})
+	fmt.Println(":8001")
+	http.ListenAndServe(":8001", nil)
 
 }
 

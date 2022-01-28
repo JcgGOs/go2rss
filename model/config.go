@@ -20,16 +20,18 @@ func (c *Config) Init() {
 		if f.Proxy == "" {
 			f.Proxy = c.Proxy
 		}
-		if f.Proxy == "direct" {
-			f.Proxy = ""
+
+		if f.FeedTitle == nil {
+			f.FeedTitle = &ExprField{
+				Expr: "/html/head/title",
+			}
 		}
 
-		if f.FeedTitle.Expr == "" {
-			f.FeedTitle.Expr = "/html/head/title"
-		}
-		if f.FeedDescription.Expr == "" {
-			f.FeedDescription.Expr = "/html/head/media[@name=\"description\"]"
-			f.FeedDescription.Attr = "content"
+		if f.FeedDescription == nil {
+			f.FeedDescription = &ExprField{
+				Expr: "/html/head/media[@name=\"description\"]",
+				Attr: "content",
+			}
 		}
 
 		if f.Domain == "" {

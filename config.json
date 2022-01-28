@@ -9,13 +9,6 @@
             "feed": "https://www.yinwang.org/",
             "headers":[],
             "proxy": "",
-            "feed_title":{
-                "expr":"/html/head/title"
-            },
-            "feed_description":{
-                "expr":"/html/head/meta[@http-equiv=\"content-type\"]",
-                "attr":"content"
-            },
             "items":{
                 "expr":"/html/body/div/ul/li"
             } ,
@@ -30,7 +23,7 @@
                 "attr":"href"
             },
             "author": {
-                "expr":"wangyin"
+                "expr":"王垠"
             },
             "email": {
                 "expr":""
@@ -38,6 +31,9 @@
             "created": {
                 "expr":"//div",
                 "fmt":"2006年01月02日"
+            },
+            "content": {
+                "expr":"/html/body/div"
             }
         }
     ]
