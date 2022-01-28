@@ -8,6 +8,7 @@ steps:
     GO111MODULE: on
     GOPROXY: https://mirrors.aliyun.com/goproxy/
   commands:
+  - go env
   - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
   - golangci-lint run
 
