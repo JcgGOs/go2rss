@@ -6,7 +6,7 @@ steps:
   image: golang:1.7
   environment:
     GO111MODULE: on
-    GOPROXY: https://goproxy.cn/
+    GOPROXY: https://mirrors.aliyun.com/goproxy/
   commands:
   - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
   - golangci-lint run
@@ -15,7 +15,7 @@ steps:
   image: golang:1.7
   environment:
     GO111MODULE: on
-    GOPROXY: https://goproxy.cn/
+    GOPROXY: https://mirrors.aliyun.com/goproxy/
   commands:
   - go test -v
   - go build -v
@@ -25,7 +25,7 @@ steps:
 #   image: plugins/docker:18
 #   environment:
 #     GO111MODULE: on
-#     GOPROXY: https://goproxy.cn/  
+#     GOPROXY: https://mirrors.aliyun.com/goproxy/  
 #   settings:
 #     auto_tag: true
 #     auto_tag_suffix: linux-x86
