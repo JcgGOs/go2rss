@@ -25,7 +25,7 @@ steps:
 # - name: publish
 #   image: plugins/docker:18
 #   environment:
-#     GO111MODULE: on
+#     GO111MODULE: on 
 #     GOPROXY: https://mirrors.aliyun.com/goproxy/  
 #   settings:
 #     auto_tag: true
