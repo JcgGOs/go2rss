@@ -51,7 +51,10 @@ func (feed *Feed) Gen() (string, error) {
 		Items:       []*feeds.Item{},
 	}
 
-	for _, n := range Nodes(doc, feed.Items.Expr) {
+	for i, n := range Nodes(doc, feed.Items.Expr) {
+		if i > 10 {
+			break
+		}
 		_link := feed.Link.Href(n, feed.Domain)
 		_item := &feeds.Item{
 			Title:       feed.Title.Value(n),
@@ -82,5 +85,5 @@ func (feed *Feed) Gen() (string, error) {
 		}
 		wg.Wait()
 	}
-	return nFeed.ToAtom()
+	return nFeed.ToRss()
 }
