@@ -5,6 +5,7 @@ steps:
 - name: linter
   image: golang:1.7
   environment:
+    GO111MODULE: on
     GOPROXY: https://goproxy.cn/
   commands:
   - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
