@@ -8,11 +8,7 @@ import (
 )
 
 func main() {
-	// PrintFetch()
 	Boot()
-	// Boot()
-	// fileName := "hello.js.txt"
-	// fmt.Println(fileName[:len(fileName)-len(filepath.Ext(fileName))])
 }
 
 func Boot() {
@@ -40,19 +36,4 @@ func Boot() {
 	})
 	fmt.Println(":8001")
 	http.ListenAndServe(":8001", nil)
-}
-
-func PrintFetchNew() {
-	feedMap, err := util.ReadConfig("")
-	if err != nil {
-		return
-	}
-
-	fmt.Println(feedMap)
-	feed := feedMap["wangyin"]
-
-	html, _ := util.Gen(feed)
-
-	fmt.Println(html)
-
 }
