@@ -20,13 +20,13 @@ steps:
       - go build -v
 
 
-# - name: publish
-#   image: plugins/docker:18
-#   environment:
-#     GO111MODULE: on 
-#     GOPROXY: https://mirrors.aliyun.com/goproxy/  
-#   settings:
-#     auto_tag: true
-#     auto_tag_suffix: linux-x86
-#     dockerfile: Dockerfile
-#     repo: tantao700/go2rss
+  - name: publish
+    image: plugins/docker:18
+    environment:
+      GO111MODULE: on 
+      GOPROXY: https://mirrors.aliyun.com/goproxy/  
+    settings:
+      auto_tag: true
+      auto_tag_suffix: linux-x86
+      dockerfile: Dockerfile
+      repo: tantao700/go2rss
