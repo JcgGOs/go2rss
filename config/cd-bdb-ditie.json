@@ -25,13 +25,20 @@
     },
     "created": {
         "expr": "//div/p[2]",
-        "fmt": "2006-01-02"
+        "fmt": "2006-01-02 15:04"
     },
     "content": {
         "expr": "/html/body/div[4]/div[1]/div[3]",
         "attr": "html",
-        "n_thread": 2,
-        "n_top":3,
-        "n_delay":1000
+        "n_thread": 3,
+        "n_top":5,
+        "n_delay":1000,
+        "blocks":[
+            "<!--[\\s\\S]*?-->",
+            "<script[\\s\\S]*?</script>",
+            "<p style=\"text-align:center;\">[\\s\\S]*?</p>",
+            "<div id=\"add_ewm_content\">[\\s\\S]*?</div>",
+            "<p class=\"view_city_index\">[\\s\\S]*?</p>"
+        ]
     }
 }

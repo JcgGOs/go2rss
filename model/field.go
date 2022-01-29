@@ -20,7 +20,8 @@ type TimeField struct {
 
 type ContentField struct {
 	*ExprField
-	NThread int `json:"n_thread"`
-	NTop    int `json:"n_top"`
-	NDelay  int `json:"n_delay"`
+	NThread int      `json:"n_thread"`
+	NTop    int      `json:"n_top"`
+	NDelay  int      `json:"n_delay"`
+	Blocks  []string `json:"blocks"`
 }

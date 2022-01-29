@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"go2rss/util"
 	"net/http"
@@ -8,12 +9,17 @@ import (
 	"strings"
 )
 
-func main() {
-	Boot()
-}
+var dir = flag.String("dir", "./config", "Input Your Name")
 
-func Boot() {
-	feedMap, _ := util.ReadConfig("")
+func main() {
+	flag.Parse()
+
+	feedMap, _ := util.ReadConfig(*dir)
+
+	http.HandleFunc("/reload", func(w http.ResponseWriter, r *http.Request) {
+		feedMap, _ = util.ReadConfig(*dir)
+	})
+
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 
 		if r.RequestURI == "/" {
@@ -30,7 +36,7 @@ func Boot() {
 			return
 		}
 
-		name := strings.Replace(r.RequestURI, "/", "", 1)
+		name := strings.Replace(r.URL.Path, "/", "", 1)
 		feed := feedMap[name]
 		if feed != nil {
 			context, _ := util.Gen(feed)

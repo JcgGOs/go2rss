@@ -1,6 +1,10 @@
 package model
 
+import "regexp"
+
 var UA = "User-Agent:Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/97.0.4692.99 Safari/537.36 Edg/97.0.1072.69"
+
+var Regexes = make(map[string]*regexp.Regexp, 2)
 
 type Feed struct {
 	Name            string        `json:"name"`
@@ -31,6 +35,11 @@ func (f *Feed) Merge(other *Feed) {
 		if f.Render == "" {
 			f.Render = "rss"
 		}
+
+		for _, v := range f.Content.Blocks {
+			Regexes[v] = regexp.MustCompile(v)
+		}
+
 	}()
 
 	if other == nil {

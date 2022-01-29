@@ -143,6 +143,13 @@ func Gen(feed *model.Feed) (string, error) {
 					href := AbsHref(_f.Link.Href, feed.Feed)
 					itemBody, err := GET(feed.Proxy, href, feed.Headers)
 					if err == nil {
+						//Remove regex tag
+						for _, v := range feed.Content.Blocks {
+							re := model.Regexes[v]
+							if re != nil {
+								itemBody = []byte(re.ReplaceAllString(string(itemBody), ""))
+							}
+						}
 						_itemDoc, _ := Load(bytes.NewReader(itemBody))
 						_f.Content = Html(_itemDoc, feed.Content)
 					}
