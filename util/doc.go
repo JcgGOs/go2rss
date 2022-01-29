@@ -63,7 +63,7 @@ func AbsHref(v string, uri string) string {
 	}
 
 	idx := strings.LastIndex(uri, "/")
-	if idx < len(uri)-1 {
+	if idx < len(uri)-1 && idx > 7 {
 		uri = uri[:idx+1]
 	}
 

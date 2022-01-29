@@ -110,7 +110,7 @@ func Gen(feed *model.Feed) (string, error) {
 	}
 
 	for _, n := range Nodes(doc, feed.Items.Expr) {
-		_href := Href(n, feed.Link.Expr)
+		_href := Value(n, feed.Link)
 		_link := AbsHref(_href, feed.Feed)
 		_item := &feeds.Item{
 			Title:       Value(n, feed.Title),
