@@ -10,11 +10,12 @@ steps:
       - golangci-lint run
 
   - name: build
-    image: golang:1.7
+    image: golang:1.17
     environment:
       GO111MODULE: ON
       GOPROXY: https://mirrors.aliyun.com/goproxy/
     commands:
+      - go env
       - go mod tidy
       - go test ./util -v
       - go build -v
