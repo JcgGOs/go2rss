@@ -27,6 +27,11 @@ steps:
       GOPROXY: https://mirrors.aliyun.com/goproxy/  
     settings:
       auto_tag: true
-      auto_tag_suffix: linux-x86
+      auto_tag_suffix: latest
       dockerfile: Dockerfile
       repo: tantao700/go2rss
+      username: tantao700
+      password: docker12345678
+    volumes:
+    - name: dockerv
+      path: /var/run/docker.sock      
