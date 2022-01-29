@@ -1,0 +1,38 @@
+{
+    "name": "Lawrence",
+    "feed": "https://lawrenceli.me/blog",
+    "desc": "鸟哥博客",
+    "render": "rss",
+    "items": {"expr": "/html/body/div/div/main/section/ul/li"},
+    "title": {
+        "expr": "//div/a"
+    },
+    "description": {
+        "expr": "//div/a"
+    },
+    "feedDescription": {
+        "expr": "Lawrence's Blog"
+    },
+    "link": {
+        "expr": "//div/a",
+        "attr": "href"
+    },
+    "author": {
+        "expr": "lawrenceli"
+    },
+    "email": {
+        "expr": "lonor@live.com"
+    },
+    "created": {
+        "expr": "//samll/time",
+        "attr":"datetime",
+        "fmt": "2006-01-02"
+    },
+    "content": {
+        "expr": "/html/body/div/div/main/article",
+        "attr": "html",
+        "n_thread": 2,
+        "n_top":5,
+        "n_delay":1000
+    }
+}

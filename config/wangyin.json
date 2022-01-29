@@ -1,0 +1,37 @@
+{
+    "name": "wangyin",
+    "feed": "https://www.yinwang.org",
+    "desc":"王垠的博客",
+    "render": "rss",
+    "items": {"expr": "/html/body/div/ul/li"},
+    "title": {
+        "expr": "//a"
+    },
+    "description": {
+        "expr": "//a"
+    },
+    "feedDescription": {
+        "expr": "王垠的博客"
+    },
+    "link": {
+        "expr": "//a",
+        "attr": "href"
+    },
+    "author": {
+        "expr": "王垠"
+    },
+    "email": {
+        "expr": ""
+    },
+    "created": {
+        "expr": "//div",
+        "fmt": "2006年01月02日"
+    },
+    "content": {
+        "expr": "/html/body/div",
+        "attr": "html",
+        "n_thread": 2,
+        "n_top":2,
+        "n_delay":1000
+    }
+}
