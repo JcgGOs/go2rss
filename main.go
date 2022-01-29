@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go2rss/util"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -23,7 +24,9 @@ func Boot() {
 
 			var template = "<html><head> </head> <body style=\"text-align: center\"> <h2>aRss</h2> <table> <tr> <th>Name</th> <th>Desc</th> </tr> %s </table> </body> </html>"
 			html := fmt.Sprintf(template, buf)
-			w.Write([]byte(html))
+			if size, err := w.Write([]byte(html)); err == nil {
+				fmt.Println(size, err)
+			}
 			return
 		}
 
@@ -31,9 +34,13 @@ func Boot() {
 		feed := feedMap[name]
 		if feed != nil {
 			context, _ := util.Gen(feed)
-			w.Write([]byte(context))
+			if size, err := w.Write([]byte(context)); err == nil {
+				fmt.Println(size, err)
+			}
 		}
 	})
 	fmt.Println(":8001")
-	http.ListenAndServe(":8001", nil)
+	if err := http.ListenAndServe(":8001", nil); err != nil {
+		os.Exit(1)
+	}
 }
