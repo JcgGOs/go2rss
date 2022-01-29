@@ -12,6 +12,7 @@ steps:
   - name: build
     image: golang:1.7
     environment:
+      GOMODULE: ON
       GOPROXY: https://mirrors.aliyun.com/goproxy/
     commands:
       - go mod tidy
