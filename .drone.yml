@@ -2,24 +2,21 @@ kind: pipeline
 name: default
 
 steps:
-- name: linter
-  image: golang:1.7
-  environment:
-    - GO111MODULE=on
-    - GOPROXY=https://mirrors.aliyun.com/goproxy/
-  commands:
-    - go env
-    - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-    - golangci-lint run
+  - name: linter
+    image: golang:latest
+    environment:
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+    commands:
+      - go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
+      - golangci-lint run
 
-- name: build
-  image: golang:1.7
-  environment:
-    - GO111MODULE=on
-    - GOPROXY=https://mirrors.aliyun.com/goproxy/
-  commands:
-    - go test -v
-    - go build -v
+  - name: build
+    image: golang:1.7
+    environment:
+      GOPROXY: https://mirrors.aliyun.com/goproxy/
+    commands:
+      - go test ./util -v
+      - go build -v
 
 
 # - name: publish
