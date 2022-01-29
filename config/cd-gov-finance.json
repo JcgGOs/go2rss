@@ -1,0 +1,38 @@
+{
+    "name": "成都财政",
+    "feed": "http://gk.chengdu.gov.cn/govInfoPub/list.action?classId=072401020701&tn=2",
+    "desc": "成都财政",
+    "render": "rss",
+    "items": {"expr": "/html/body/div[2]/div/div[3]/ul[*]/li"},
+    "title": {
+        "expr": "//a/span[2]"
+    },
+    "description": {
+        "expr": "//div/a"
+    },
+    "feedDescription": {
+        "expr": "Lawrence's Blog"
+    },
+    "link": {
+        "expr": "//a",
+        "attr": "href"
+    },
+    "author": {
+        "expr": "天府新q"
+    },
+    "email": {
+        "expr": "xxx@live.com"
+    },
+    "created": {
+        "expr": "//a",
+        "attr":"datetime",
+        "fmt": "2006-01-02"
+    },
+    "content": {
+        "expr": "/html/body/div[4]/div/ul/table[3]/tbody/tr/td",
+        "attr": "html",
+        "n_thread": 2,
+        "n_top":5,
+        "n_delay":1000
+    }
+}

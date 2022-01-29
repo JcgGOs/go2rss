@@ -1,0 +1,38 @@
+{
+    "name": "本地宝-成都地铁",
+    "feed": "http://cd.bendibao.com/traffic/chengduditie/",
+    "desc": "本地宝-成都地铁",
+    "render": "rss",
+    "items": {"expr": "/html/body/div[4]/div[1]/div/ul/li"},
+    "title": {
+        "expr": "//div/h3/a"
+    },
+    "description": {
+        "expr": "//div/p[1]"
+    },
+    "feedDescription": {
+        "expr": "成都本地宝"
+    },
+    "link": {
+        "expr": "//div/h3/a",
+        "attr": "href"
+    },
+    "author": {
+        "expr": "gRss"
+    },
+    "email": {
+        "expr": "gRss@live.com"
+    },
+    "created": {
+        "expr": "//div/p[2]",
+        "attr":"datetime",
+        "fmt": "2006-01-02"
+    },
+    "content": {
+        "expr": "/html/body/div[4]/div[1]/div[3]",
+        "attr": "html",
+        "n_thread": 2,
+        "n_top":3,
+        "n_delay":1000
+    }
+}

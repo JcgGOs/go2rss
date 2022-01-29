@@ -1,6 +1,6 @@
 // Package mlog is simple logging module for go, with a rotating file feature
 // and console logging.
-package main
+package util
 
 import (
 	"fmt"
