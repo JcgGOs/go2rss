@@ -14,6 +14,7 @@ steps:
     environment:
       GOPROXY: https://mirrors.aliyun.com/goproxy/
     commands:
+      - go mod tidy
       - go test ./util -v
       - go build -v
 
