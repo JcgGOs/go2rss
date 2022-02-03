@@ -15,18 +15,31 @@ import (
 	"github.com/gorilla/feeds"
 )
 
-func WalkFiles(dir string) ([]string, error) {
-	files := []string{}
-	err := filepath.Walk(dir, func(path string, fi os.FileInfo, err error) error {
-		if !fi.IsDir() {
-			files = append(files, fi.Name())
+func WalkFiles(dir string) (map[string]string, error) {
+
+	folder, err := filepath.Abs(dir)
+	if err != nil {
+		return nil, err
+	}
+
+	configMap := make(map[string]string, 4)
+	err = filepath.Walk(folder, func(path string, fi os.FileInfo, err error) error {
+		if fi.IsDir() {
+			return nil
 		}
+
+		// /full_name.json => /full_name
+		relationPath := strings.ReplaceAll(path, folder, "")
+		relationPath = relationPath[:len(relationPath)-len(filepath.Ext(relationPath))]
+
+		configMap[relationPath] = path
 		return nil
+
 	})
 	if err != nil {
 		return nil, err
 	}
-	return files, nil
+	return configMap, nil
 }
 
 func NoExt(fileName string) string {
@@ -42,33 +55,27 @@ func ReadConfig(dir string) (map[string]*model.Feed, error) {
 		dir = dir + "/"
 	}
 
-	files, err := WalkFiles(dir)
+	pathMap, err := WalkFiles(dir)
 	if err != nil {
 		return nil, err
 	}
 
 	var _default *model.Feed
 	feedsMap := make(map[string]*model.Feed, 4)
-	for _, v := range files {
-		path, err := filepath.Abs(dir + v)
-		if err != nil {
-			fmt.Println("Path error", v)
-			continue
-		}
+	for nameNoExt, path := range pathMap {
 
 		feed, err := ToFeed(path)
 		if err != nil {
-			fmt.Println("Convert error", v)
+			fmt.Println("Convert error:", path, err)
 			continue
 		}
 
-		v = NoExt(v)
-		if v == "default" {
+		if nameNoExt == filepath.FromSlash("/default") {
 			_default = feed
 			continue
 		}
 
-		feedsMap[v] = feed
+		feedsMap[nameNoExt] = feed
 	}
 
 	for _, f := range feedsMap {
@@ -80,6 +87,8 @@ func ReadConfig(dir string) (map[string]*model.Feed, error) {
 
 func ToFeed(file string) (*model.Feed, error) {
 	text, err := os.ReadFile(file)
+	fmt.Printf("text: %v\n", string(text))
+
 	if err != nil {
 		return nil, err
 	}

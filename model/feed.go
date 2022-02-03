@@ -36,8 +36,10 @@ func (f *Feed) Merge(other *Feed) {
 			f.Render = "rss"
 		}
 
-		for _, v := range f.Content.Blocks {
-			Regexes[v] = regexp.MustCompile(v)
+		if f.Content.Blocks != nil {
+			for _, v := range f.Content.Blocks {
+				Regexes[v] = regexp.MustCompile(v)
+			}
 		}
 
 	}()
