@@ -19,7 +19,7 @@
             "type": "go",
             "request": "launch",
             "mode": "auto",
-            "program": "${workspaceFolder}/cmd/tmp/main.go",
+            "program": "${workspaceFolder}/main.go",
             "args": [
                 "-dir=${workspaceFolder}/config/"
             ]

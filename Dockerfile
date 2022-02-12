@@ -6,6 +6,6 @@ WORKDIR /app
 COPY . .
 
 RUN go mod download && go build -v -ldflags "-s -w" -o go2rss
-EXPOSE 8001
+EXPOSE 8081
 
 CMD [ "/app/go2rss" ]
