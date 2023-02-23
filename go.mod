@@ -12,5 +12,5 @@ require (
 	github.com/antchfx/xpath v1.2.0 // indirect
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
 	github.com/kr/pretty v0.3.0 // indirect
-	golang.org/x/text v0.3.0 // indirect
+	golang.org/x/text v0.3.8 // indirect
 )
